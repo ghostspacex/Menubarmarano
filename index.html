@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>PDF Viewer</title>
+    <link rel="stylesheet" href="viewer.css"/>
+  </head>
+  <body>
+    <div id="viewerContainer" class="viewerContainer">
+      <div id="viewer" class="pdfViewer"></div>
+    </div>
+    <script src="pdf.js"></script>
+    <script src="pdf.viewer.js"></script>
+    <script>
+      const DEFAULT_URL = 'menubarmarano.pdf';
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
+      const container = document.getElementById('viewerContainer');
+      const pdfViewer = new pdfjsViewer.PDFViewer({ container });
+      fetch(DEFAULT_URL).then(res => res.arrayBuffer()).then(data => {
+        pdfjsLib.getDocument({ data }).promise.then(doc => {
+          pdfViewer.setDocument(doc);
+        });
+      });
+    </script>
+  </body>
+</html>
